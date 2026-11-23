@@ -261,14 +261,29 @@ const Home: React.FC = () => {
                 }
                 className="brutal-segment"
               >
-                <IonSegmentButton value="todas" className="brutal-segment-btn">
-                  <IonLabel>Todas ({metrics.total})</IonLabel>
+                <IonSegmentButton
+                  value="todas"
+                  className={`brutal-segment-btn ${
+                    activeFilter === 'todas' ? 'segment-button-checked' : ''
+                  }`}
+                >
+                  <IonLabel className="font-black text-black">Todas ({metrics.total})</IonLabel>
                 </IonSegmentButton>
-                <IonSegmentButton value="pendiente" className="brutal-segment-btn">
-                  <IonLabel>Pendientes ({metrics.pending})</IonLabel>
+                <IonSegmentButton
+                  value="pendiente"
+                  className={`brutal-segment-btn ${
+                    activeFilter === 'pendiente' ? 'segment-button-checked' : ''
+                  }`}
+                >
+                  <IonLabel className="font-black text-black">Pendientes ({metrics.pending})</IonLabel>
                 </IonSegmentButton>
-                <IonSegmentButton value="resuelta" className="brutal-segment-btn">
-                  <IonLabel>Resueltas ({metrics.resolved})</IonLabel>
+                <IonSegmentButton
+                  value="resuelta"
+                  className={`brutal-segment-btn ${
+                    activeFilter === 'resuelta' ? 'segment-button-checked' : ''
+                  }`}
+                >
+                  <IonLabel className="font-black text-black">Resueltas ({metrics.resolved})</IonLabel>
                 </IonSegmentButton>
               </IonSegment>
             </section>

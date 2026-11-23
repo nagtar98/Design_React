@@ -86,28 +86,67 @@ ion-searchbar.brutal-searchbar .searchbar-input-container {
 
 /* Ionic Segment brutalist styling */
 ion-segment.brutal-segment {
-  background: #ffffff;
-  border: 2px solid #000000;
-  border-radius: 8px;
-  box-shadow: 3px 3px 0px #000000;
-  padding: 3px;
+  --background: #ffffff;
+  background: #ffffff !important;
+  border: 2px solid #000000 !important;
+  border-radius: 8px !important;
+  box-shadow: 3px 3px 0px #000000 !important;
+  padding: 4px !important;
 }
 
 ion-segment-button.brutal-segment-btn {
-  --color: #000000;
-  --color-checked: #ffffff;
-  --indicator-color: #000000;
-  --border-radius: 6px;
-  font-weight: 800;
-  min-height: 40px;
+  --color: #000000 !important;
+  --color-checked: #000000 !important;
+  --color-hover: #000000 !important;
+  --indicator-color: #fde047 !important;
+  --indicator-height: 100% !important;
+  --indicator-box-shadow: 2px 2px 0px #000000 !important;
+  --border-radius: 6px !important;
+  font-weight: 900 !important;
+  min-height: 42px !important;
   text-transform: uppercase;
   font-size: 0.75rem;
   letter-spacing: 0.05em;
   transition: all 0.15s ease;
 }
 
+ion-segment-button.brutal-segment-btn::part(native) {
+  color: #000000 !important;
+  font-weight: 900 !important;
+}
+
+ion-segment-button.brutal-segment-btn::part(indicator) {
+  background: #fde047 !important;
+  height: 100% !important;
+  border: 2px solid #000000 !important;
+  border-radius: 6px !important;
+  box-shadow: 2px 2px 0px #000000 !important;
+}
+
+ion-segment-button.brutal-segment-btn::part(indicator-background) {
+  background: #fde047 !important;
+  height: 100% !important;
+}
+
+ion-segment-button.brutal-segment-btn.segment-button-checked {
+  --color: #000000 !important;
+  --color-checked: #000000 !important;
+  --background: #fde047 !important;
+  background: #fde047 !important;
+  border: 2px solid #000000 !important;
+  border-radius: 6px !important;
+  box-shadow: 2px 2px 0px #000000 !important;
+}
+
+ion-segment-button.brutal-segment-btn ion-label {
+  color: #000000 !important;
+  font-weight: 900 !important;
+  z-index: 10;
+  position: relative;
+}
+
 ion-segment-button.brutal-segment-btn:hover {
-  opacity: 0.9;
+  opacity: 0.95;
 }
 
 /* Brutalist Modal styling */
