@@ -1,0 +1,7 @@
+{
+    "name": "smartlab-ionic-tw",
+    "integrations": {
+        "capacitor": {}
+    },
+    "type": "react-vite"
+}
