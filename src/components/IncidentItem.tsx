@@ -24,14 +24,13 @@ export interface IncidentItemProps {
 }
 
 const PRIORITY_BADGE_CLASSES: Record<IncidentPriority, string> = {
-  alta: 'bg-rose-300 text-black border-2 border-black',
-  media: 'bg-amber-300 text-black border-2 border-black',
-  baja: 'bg-emerald-300 text-black border-2 border-black',
+  alta: 'bg-[#FF2A2A] text-white border-2 border-black',
+  media: 'bg-[#FF7A00] text-black border-2 border-black',
+  baja: 'bg-[#00D26A] text-black border-2 border-black',
 };
 
 /**
- * Componente modular de fila de incidencia con soporte para gestos táctiles IonItemSliding,
- * navegación a ficha técnica e interactividad Neo-Brutalista.
+ * Fila modular de incidencia con estilo Industrial Brutalista y colores vivos saturados.
  * Cumple con RA 1 / CE 1.b, RA 3 / CE 3.a y RA 4 / CE 4.c.
  */
 export const IncidentItem: React.FC<IncidentItemProps> = ({
@@ -54,7 +53,7 @@ export const IncidentItem: React.FC<IncidentItemProps> = ({
   };
 
   return (
-    <IonItemSliding className="mb-3 overflow-hidden rounded-lg">
+    <IonItemSliding className="mb-3.5 overflow-hidden rounded">
       <IonItem
         lines="none"
         className="incident-item w-full p-0"
@@ -71,18 +70,18 @@ export const IncidentItem: React.FC<IncidentItemProps> = ({
               handleCardClick();
             }
           }}
-          className={`w-full cursor-pointer rounded-lg border-2 md:border-3 border-black bg-white p-3.5 transition-all duration-150 shadow-brutal hover:shadow-brutal-lg hover:-translate-y-0.5 active:translate-x-0.5 active:translate-y-0.5 active:shadow-brutal-sm ${
-            isResolved ? 'bg-slate-100/90' : 'bg-white'
+          className={`w-full cursor-pointer rounded border-2 md:border-[3px] border-black p-4 transition-all duration-150 shadow-[4px_4px_0px_#000] hover:shadow-[6px_6px_0px_#000] hover:-translate-y-0.5 active:translate-x-1 active:translate-y-1 active:shadow-[1px_1px_0px_#000] ${
+            isResolved ? 'bg-[#EEEEEE]' : 'bg-white'
           }`}
         >
-          {/* Fila superior: ID, Prioridad, Fecha/Hora */}
-          <div className="flex flex-wrap items-center justify-between gap-2">
+          {/* Fila superior: ID en caja negra, Prioridad saturada, Hora */}
+          <div className="flex flex-wrap items-center justify-between gap-2 border-b-2 border-black/10 pb-2.5">
             <div className="flex items-center gap-2">
-              <span className="rounded border border-black bg-black px-2 py-0.5 font-mono text-xs font-black tracking-wider text-yellow-300 shadow-[1px_1px_0px_#000]">
+              <span className="border-2 border-black bg-black px-2 py-0.5 font-mono text-xs font-black tracking-wider text-[#FFE600] shadow-[1px_1px_0px_#000]">
                 {incident.id}
               </span>
               <span
-                className={`rounded px-2 py-0.5 text-xs font-black uppercase tracking-wider shadow-[1px_1px_0px_#000] ${
+                className={`border-2 px-2 py-0.5 text-xs font-black uppercase tracking-wider shadow-[1px_1px_0px_#000] ${
                   PRIORITY_BADGE_CLASSES[incident.priority]
                 }`}
               >
@@ -90,7 +89,7 @@ export const IncidentItem: React.FC<IncidentItemProps> = ({
               </span>
             </div>
 
-            <div className="flex items-center gap-1 text-xs font-bold text-slate-700">
+            <div className="flex items-center gap-1.5 border border-black/40 bg-black/5 px-2 py-0.5 font-mono text-xs font-black text-black">
               <IonIcon icon={timeOutline} className="text-sm" />
               <span>{incident.createdAt}</span>
             </div>
@@ -98,65 +97,70 @@ export const IncidentItem: React.FC<IncidentItemProps> = ({
 
           {/* Título */}
           <h3
-            className={`mt-2 text-base font-black tracking-tight ${
-              isResolved ? 'text-slate-500 line-through' : 'text-black'
+            className={`mt-2.5 text-base md:text-lg font-black tracking-tight ${
+              isResolved ? 'text-slate-400 line-through' : 'text-black'
             }`}
           >
             {incident.title}
           </h3>
 
-          {/* Descripción corta */}
-          <p className="mt-1 line-clamp-2 text-xs font-medium text-slate-700">
+          {/* Descripción técnica */}
+          <p className="mt-1 text-xs md:text-sm font-medium text-slate-800 line-clamp-2">
             {incident.description}
           </p>
 
-          {/* Fila inferior: Ubicación y botón interactivo de estado */}
-          <div className="mt-3 flex flex-wrap items-center justify-between gap-2 border-t-2 border-black/20 pt-2.5">
-            <div className="flex items-center gap-1.5 text-xs font-black text-slate-900">
-              <IonIcon icon={locationOutline} className="text-base text-black" />
+          {/* Fila inferior: Ubicación y botones de interacción directa */}
+          <div className="mt-3.5 flex flex-wrap items-center justify-between gap-2 border-t-2 border-black pt-3">
+            <div className="flex items-center gap-1.5 text-xs font-black uppercase text-black">
+              <span className="border border-black bg-black px-1 font-mono text-[10px] text-white">
+                LOC
+              </span>
+              <IonIcon icon={locationOutline} className="text-sm text-black" />
               <span>{incident.location}</span>
             </div>
 
             <div className="flex items-center gap-2">
+              {/* Botón táctil conmutador de estado */}
               <button
                 type="button"
                 onClick={handleStatusToggle}
                 aria-label={
                   isResolved
-                    ? `Marcar ${incident.id} como pendiente`
-                    : `Marcar ${incident.id} como resuelta`
+                    ? `Reabrir incidencia ${incident.id}`
+                    : `Resolver incidencia ${incident.id}`
                 }
-                className={`inline-flex items-center gap-1.5 rounded border-2 border-black px-2.5 py-1 text-xs font-black uppercase tracking-wider transition-all min-h-[36px] ${
+                className={`inline-flex items-center gap-1.5 rounded-none border-2 border-black px-3 py-1.5 text-xs font-black uppercase tracking-wider transition-all min-h-[38px] ${
                   isResolved
-                    ? 'bg-emerald-300 text-black shadow-[2px_2px_0px_#000] hover:bg-emerald-400'
-                    : 'bg-amber-300 text-black shadow-[2px_2px_0px_#000] hover:bg-amber-400'
+                    ? 'bg-[#00D26A] text-black shadow-[2px_2px_0px_#000] hover:bg-[#00B85C]'
+                    : 'bg-[#FFE600] text-black shadow-[2px_2px_0px_#000] hover:bg-[#E5CE00]'
                 } active:translate-x-0.5 active:translate-y-0.5 active:shadow-none`}
               >
                 <IonIcon
                   icon={isResolved ? checkmarkCircleOutline : timeOutline}
-                  className="text-sm font-black"
+                  className="text-base font-black"
                 />
                 <span>{isResolved ? 'Resuelta' : 'Pendiente'}</span>
               </button>
 
+              {/* Botón de acceso a ficha completa */}
               <div
-                title="Ver detalles completos"
-                className="flex h-9 w-9 items-center justify-center rounded border-2 border-black bg-yellow-300 shadow-[2px_2px_0px_#000] transition-all hover:-translate-y-0.5 active:translate-x-0.5 active:translate-y-0.5"
+                title="Abrir ficha técnica completa"
+                className="flex h-9 w-9 items-center justify-center rounded-none border-2 border-black bg-black text-[#FFE600] shadow-[2px_2px_0px_#000] transition-all hover:bg-[#FFE600] hover:text-black active:translate-x-0.5 active:translate-y-0.5"
               >
-                <IonIcon icon={arrowForwardOutline} className="text-base font-black text-black" />
+                <IonIcon icon={arrowForwardOutline} className="text-base font-black" />
               </div>
             </div>
           </div>
         </div>
       </IonItem>
 
-      {/* Opciones ocultas desplegables mediante swipe lateral */}
+      {/* Opciones deslizables con swipe horizontal */}
       <IonItemOptions side="end">
         <IonItemOption
           color={isResolved ? 'warning' : 'success'}
           onClick={() => onToggleStatus(incident.id)}
-          aria-label={isResolved ? 'Marcar pendiente' : 'Marcar resuelta'}
-          className="min-w-[65px] font-black text-black border-l-2 border-black"
+          aria-label={isResolved ? 'Reabrir incidencia' : 'Resolver incidencia'}
+          className="min-w-[70px] font-black text-black border-l-2 border-black"
         >
           <div className="flex flex-col items-center justify-center gap-1">
             <IonIcon
@@ -174,7 +178,7 @@ export const IncidentItem: React.FC<IncidentItemProps> = ({
           color="danger"
           onClick={() => onDelete(incident.id)}
           aria-label="Eliminar incidencia"
-          className="min-w-[65px] font-black text-black border-l-2 border-black"
+          className="min-w-[70px] font-black text-white border-l-2 border-black bg-[#FF2A2A]"
         >
           <div className="flex flex-col items-center justify-center gap-1">
             <IonIcon slot="icon-only" icon={trashOutline} className="text-2xl" />

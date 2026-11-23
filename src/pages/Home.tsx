@@ -44,8 +44,8 @@ import { IncidentItem } from '../components/IncidentItem';
 
 /**
  * Página principal SmartLab Incident Manager.
- * Integra estética Neo-Brutalista, micro-interacciones táctiles, componentes modulares
- * y un layout responsivo estructurado con unidades vh.
+ * Estilo Industrial Brutalista (colores vivos y saturados, cero tonos pastel).
+ * Layout proporcional en vh, micro-interacciones táctiles y modularización.
  */
 const Home: React.FC = () => {
   const history = useHistory();
@@ -100,7 +100,7 @@ const Home: React.FC = () => {
   // Gesto táctil Pull-to-Refresh con confirmación reactiva
   const handleRefresh = (event: CustomEvent<RefresherEventDetail>) => {
     setTimeout(() => {
-      setToastMessage('Sincronización completada con almacenamiento local');
+      setToastMessage('Sincronización de registros completada');
       event.detail.complete();
     }, 600);
   };
@@ -160,26 +160,27 @@ const Home: React.FC = () => {
 
   return (
     <IonPage>
-      {/* Cabecera Brutalista con contador reactivo */}
+      {/* Cabecera Industrial Brutalista con banda de advertencia y conteo dinámico */}
       <IonHeader className="ion-no-border">
         <IonToolbar className="min-h-[7vh]">
-          <IonTitle className="font-black tracking-tight text-black text-lg md:text-xl">
-            ⚡ SmartLab Incident Manager
+          <IonTitle className="font-black tracking-tight text-black text-base md:text-lg">
+            ⚡ SMARTLAB // INCIDENT_MONITOR [DAM-0488]
           </IonTitle>
           <IonButtons slot="end">
             <div className="mr-3 flex items-center gap-2">
-              <span className="hidden text-xs font-black uppercase tracking-wider text-black sm:inline">
-                Pendientes:
+              <span className="hidden font-mono text-[11px] font-black uppercase tracking-wider text-black sm:inline">
+                EN COLA:
               </span>
-              <span className="flex items-center gap-1 rounded border-2 border-black bg-black px-2.5 py-1 font-mono text-xs font-black text-yellow-300 shadow-[2px_2px_0px_#000]">
-                {metrics.pending}
+              <span className="flex items-center gap-1.5 border-2 border-black bg-black px-2.5 py-1 font-mono text-xs font-black text-[#FFE600] shadow-[2px_2px_0px_#000]">
+                <span className="h-2 w-2 rounded-full bg-[#00D26A] animate-pulse"></span>
+                {metrics.pending} PND
               </span>
             </div>
           </IonButtons>
         </IonToolbar>
       </IonHeader>
 
-      <IonContent fullscreen className="bg-[#faf8f5]">
+      <IonContent fullscreen className="bg-[#f4f4f0]">
         {/* Pull-to-Refresh nativo */}
         <IonRefresher slot="fixed" onIonRefresh={handleRefresh}>
           <IonRefresherContent
@@ -192,17 +193,22 @@ const Home: React.FC = () => {
         {/* Contenedor principal con restricciones responsivas y espaciado proporcional en vh */}
         <div className="mx-auto flex min-h-[93vh] max-w-5xl flex-col justify-between px-3.5 pb-24 pt-4 sm:px-6">
           <div className="space-y-4">
-            {/* Bloque 1: Panel KPI modular con Tailwind Grid e interacción de filtrado táctil */}
+            {/* Bloque 1: Panel KPI modular con colores saturados e interacción de filtrado táctil */}
             <section
               aria-label="Resumen operativo de incidencias"
               className="min-h-[12vh]"
             >
               <div className="mb-2 flex items-center justify-between">
-                <h2 className="text-xs font-black uppercase tracking-wider text-black">
-                  Estado Operativo del Centro (KPIs)
-                </h2>
-                <span className="text-[11px] font-bold text-slate-600 hidden sm:inline">
-                  Pulsa una tarjeta para filtrar rápidamente
+                <div className="flex items-center gap-1.5">
+                  <span className="border border-black bg-black px-1.5 font-mono text-[10px] font-black uppercase text-[#FFE600]">
+                    SYS
+                  </span>
+                  <h2 className="text-xs font-black uppercase tracking-wider text-black">
+                    Panel Operativo en Tiempo Real
+                  </h2>
+                </div>
+                <span className="text-[11px] font-black uppercase text-slate-700 hidden sm:inline">
+                  [Clic en tarjeta para filtrar]
                 </span>
               </div>
 
@@ -240,7 +246,7 @@ const Home: React.FC = () => {
               </div>
             </section>
 
-            {/* Bloque 2: Buscador y Segment Tabs con estilo Neo-Brutalista */}
+            {/* Bloque 2: Buscador y Segment Tabs con estilo Industrial Brutalista */}
             <section
               aria-label="Filtros y buscador de incidencias"
               className="space-y-2.5 pt-1"
@@ -248,7 +254,7 @@ const Home: React.FC = () => {
               <IonSearchbar
                 value={searchQuery}
                 onIonInput={(e) => setSearchQuery(e.detail.value ?? '')}
-                placeholder="Buscar por ID (INC-101), aula, título..."
+                placeholder="Buscar por código (INC-101), aula, título..."
                 debounce={150}
                 className="brutal-searchbar"
                 aria-label="Buscar incidencias"
@@ -294,24 +300,29 @@ const Home: React.FC = () => {
               className="min-h-[48vh] pt-1"
             >
               <div className="mb-2 flex items-center justify-between">
-                <h2 className="text-xs font-black uppercase tracking-wider text-black">
-                  Incidencias Registradas ({filteredIncidents.length})
-                </h2>
-                <span className="text-[11px] font-bold text-slate-500">
-                  Desliza para opciones · Clic para ficha técnica
+                <div className="flex items-center gap-1.5">
+                  <span className="border border-black bg-black px-1.5 font-mono text-[10px] font-black uppercase text-[#FFE600]">
+                    REG
+                  </span>
+                  <h2 className="text-xs font-black uppercase tracking-wider text-black">
+                    Registro de Incidencias ({filteredIncidents.length})
+                  </h2>
+                </div>
+                <span className="font-mono text-[11px] font-black uppercase text-slate-700">
+                  DESLIZAR = ACCIONES · CLIC = DETALLE
                 </span>
               </div>
 
               {filteredIncidents.length === 0 ? (
-                <div className="flex h-[32vh] flex-col items-center justify-center rounded-xl border-2 md:border-3 border-dashed border-black bg-white p-6 text-center shadow-brutal">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-full border-2 border-black bg-yellow-300 shadow-[2px_2px_0px_#000]">
+                <div className="flex h-[32vh] flex-col items-center justify-center rounded border-2 md:border-[3px] border-black bg-white p-6 text-center shadow-[6px_6px_0px_#000]">
+                  <div className="flex h-12 w-12 items-center justify-center border-2 border-black bg-[#FFE600] shadow-[2px_2px_0px_#000]">
                     <IonIcon icon={searchOutline} className="text-2xl text-black" />
                   </div>
-                  <h3 className="mt-3 text-base font-black text-black">
-                    Sin coincidencias registradas
+                  <h3 className="mt-3 text-base font-black text-black uppercase tracking-tight">
+                    Sin Coincidencias en el Sistema
                   </h3>
-                  <p className="mt-1 max-w-sm text-xs font-bold text-slate-600">
-                    No hay incidencias que correspondan al filtro aplicado o término de búsqueda.
+                  <p className="mt-1 max-w-sm text-xs font-bold text-slate-700">
+                    No existen registros que correspondan al filtro activo o al criterio de búsqueda introducido.
                   </p>
                   {(searchQuery || activeFilter !== 'todas') && (
                     <button
@@ -320,7 +331,7 @@ const Home: React.FC = () => {
                         setSearchQuery('');
                         setActiveFilter('todas');
                       }}
-                      className="mt-3 inline-flex items-center gap-1.5 rounded border-2 border-black bg-amber-300 px-3 py-1.5 text-xs font-black uppercase shadow-[2px_2px_0px_#000] active:translate-x-0.5 active:translate-y-0.5"
+                      className="mt-3 inline-flex items-center gap-1.5 border-2 border-black bg-[#FFE600] px-4 py-2 text-xs font-black uppercase shadow-[2px_2px_0px_#000] active:translate-x-0.5 active:translate-y-0.5"
                     >
                       <IonIcon icon={refreshOutline} />
                       Restablecer Filtros
@@ -348,23 +359,23 @@ const Home: React.FC = () => {
           </div>
 
           {/* Pie informativo técnico */}
-          <footer className="mt-8 border-t-2 border-black/20 pt-3 text-center text-[11px] font-bold text-slate-600">
-            SmartLab Incident Manager · Módulo DAM 0488 · Arquitectura Ionic React + Tailwind CSS
+          <footer className="mt-8 border-t-2 border-black pt-3 text-center font-mono text-[10px] font-black uppercase tracking-wider text-black">
+            SMARTLAB INCIDENT MANAGER · DAM 0488 · IONIC REACT + VITE + TAILWIND CSS
           </footer>
         </div>
 
-        {/* Botón Flotante de Alta (FAB) con área accesible >= 48x48px y micro-interacción */}
+        {/* Botón Flotante de Alta (FAB) con micro-interacción */}
         <IonFab slot="fixed" vertical="bottom" horizontal="end" className="mb-4 mr-4">
           <IonFabButton
             onClick={() => setIsModalOpen(true)}
             aria-label="Registrar nueva incidencia"
             className="h-14 w-14 cursor-pointer"
           >
-            <IonIcon icon={addOutline} className="text-2xl font-black text-black" />
+            <IonIcon icon={addOutline} className="text-3xl font-black text-black" />
           </IonFabButton>
         </IonFab>
 
-        {/* Modal Neo-Brutalista de Alta con soporte para operabilidad de teclado (CE 4.d) */}
+        {/* Modal de Alta con soporte para operabilidad de teclado (CE 4.d) */}
         <IonModal
           isOpen={isModalOpen}
           onDidDismiss={() => setIsModalOpen(false)}
@@ -373,7 +384,7 @@ const Home: React.FC = () => {
           <IonHeader>
             <IonToolbar>
               <IonTitle className="font-black text-black">
-                Nueva Incidencia Técnica
+                NUEVO REGISTRO TÉCNICO
               </IonTitle>
               <IonButtons slot="end">
                 <IonButton
@@ -387,41 +398,41 @@ const Home: React.FC = () => {
             </IonToolbar>
           </IonHeader>
 
-          <IonContent className="ion-padding bg-[#faf8f5]">
+          <IonContent className="ion-padding bg-[#f4f4f0]">
             <div className="mx-auto max-w-lg min-h-[50vh] flex flex-col justify-between py-2">
               <form onSubmit={handleCreateIncident} className="space-y-4">
                 {/* Campo Título */}
-                <div className="rounded-lg border-2 border-black bg-white p-1 shadow-[2px_2px_0px_#000]">
+                <div className="border-2 border-black bg-white p-1 shadow-[3px_3px_0px_#000]">
                   <IonItem lines="none" className="--background: transparent;">
                     <IonInput
                       label="Título de la Incidencia *"
                       labelPlacement="stacked"
-                      placeholder="Ej. Fallo de red en Switch 04"
+                      placeholder="Ej. Fallo de enlace en Switch Rack B"
                       value={title}
                       onIonInput={(e) => setTitle(e.detail.value ?? '')}
                       required
-                      className="font-bold text-black"
+                      className="font-black text-black"
                     />
                   </IonItem>
                 </div>
 
                 {/* Campo Aula/Ubicación */}
-                <div className="rounded-lg border-2 border-black bg-white p-1 shadow-[2px_2px_0px_#000]">
+                <div className="border-2 border-black bg-white p-1 shadow-[3px_3px_0px_#000]">
                   <IonItem lines="none" className="--background: transparent;">
                     <IonInput
                       label="Aula o Ubicación *"
                       labelPlacement="stacked"
-                      placeholder="Ej. Laboratorio 102 - Informática"
+                      placeholder="Ej. Aula 204 - Redes"
                       value={location}
                       onIonInput={(e) => setLocation(e.detail.value ?? '')}
                       required
-                      className="font-bold text-black"
+                      className="font-black text-black"
                     />
                   </IonItem>
                 </div>
 
                 {/* Campo Prioridad */}
-                <div className="rounded-lg border-2 border-black bg-white p-1 shadow-[2px_2px_0px_#000]">
+                <div className="border-2 border-black bg-white p-1 shadow-[3px_3px_0px_#000]">
                   <IonItem lines="none" className="--background: transparent;">
                     <IonSelect
                       label="Nivel de Prioridad"
@@ -430,7 +441,7 @@ const Home: React.FC = () => {
                       onIonChange={(e) =>
                         setPriority(e.detail.value as IncidentPriority)
                       }
-                      className="font-bold text-black"
+                      className="font-black text-black"
                     >
                       <IonSelectOption value="alta">Alta (Crítica)</IonSelectOption>
                       <IonSelectOption value="media">Media (Operativa)</IonSelectOption>
@@ -440,27 +451,27 @@ const Home: React.FC = () => {
                 </div>
 
                 {/* Campo Descripción */}
-                <div className="rounded-lg border-2 border-black bg-white p-1 shadow-[2px_2px_0px_#000]">
+                <div className="border-2 border-black bg-white p-1 shadow-[3px_3px_0px_#000]">
                   <IonItem lines="none" className="--background: transparent;">
                     <IonTextarea
                       label="Descripción Técnica Detallada"
                       labelPlacement="stacked"
                       rows={3}
-                      placeholder="Indica síntomas, equipos afectados y observaciones..."
+                      placeholder="Indica síntomas observados, equipos afectados..."
                       value={description}
                       onIonInput={(e) => setDescription(e.detail.value ?? '')}
-                      className="font-medium text-black"
+                      className="font-bold text-black"
                     />
                   </IonItem>
                 </div>
 
-                {/* Botón de Envío Táctil Brutalista */}
+                {/* Botón de Envío Táctil */}
                 <div className="pt-2">
                   <button
                     type="submit"
-                    className="w-full min-h-[46px] rounded-lg border-2 md:border-3 border-black bg-yellow-300 py-3 font-black uppercase tracking-wider text-black shadow-brutal transition-all hover:bg-yellow-400 hover:shadow-brutal-lg active:translate-x-1 active:translate-y-1 active:shadow-none"
+                    className="w-full min-h-[48px] border-2 md:border-[3px] border-black bg-[#FFE600] py-3 font-black uppercase tracking-wider text-black shadow-[4px_4px_0px_#000] transition-all hover:bg-black hover:text-[#FFE600] hover:shadow-[6px_6px_0px_#000] active:translate-x-1 active:translate-y-1 active:shadow-none"
                   >
-                    + Registrar Incidencia
+                    + Guardar Registro Técnico
                   </button>
                 </div>
               </form>

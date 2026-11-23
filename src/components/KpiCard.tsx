@@ -16,44 +16,39 @@ const SCHEME_STYLES: Record<
   KpiColorScheme,
   {
     bg: string;
-    border: string;
     text: string;
     iconColor: string;
-    badgeBg: string;
+    code: string;
   }
 > = {
   total: {
-    bg: 'bg-sky-200',
-    border: 'border-black',
-    text: 'text-black',
-    iconColor: 'text-black',
-    badgeBg: 'bg-black text-white',
+    bg: 'bg-[#0052FF]',
+    text: 'text-white',
+    iconColor: 'text-white',
+    code: 'TOT',
   },
   pending: {
-    bg: 'bg-amber-200',
-    border: 'border-black',
+    bg: 'bg-[#FF7A00]',
     text: 'text-black',
     iconColor: 'text-black',
-    badgeBg: 'bg-black text-amber-300',
+    code: 'PND',
   },
   critical: {
-    bg: 'bg-rose-200',
-    border: 'border-black',
-    text: 'text-black',
-    iconColor: 'text-black',
-    badgeBg: 'bg-black text-rose-300',
+    bg: 'bg-[#FF2A2A]',
+    text: 'text-white',
+    iconColor: 'text-white',
+    code: 'CRT',
   },
   resolved: {
-    bg: 'bg-emerald-200',
-    border: 'border-black',
+    bg: 'bg-[#00D26A]',
     text: 'text-black',
     iconColor: 'text-black',
-    badgeBg: 'bg-black text-emerald-300',
+    code: 'RES',
   },
 };
 
 /**
- * Componente reutilizable KpiCard con estilo Neo-Brutalista e interactividad táctil.
+ * Componente modular KpiCard con estética Industrial Brutalista y colores saturados (cero tonos pastel).
  * Cumple con RA 1 / CE 1.b y RA 3 / CE 3.a.
  */
 export const KpiCard: React.FC<KpiCardProps> = ({
@@ -81,28 +76,37 @@ export const KpiCard: React.FC<KpiCardProps> = ({
       aria-pressed={onClick ? isActive : undefined}
       onClick={onClick}
       onKeyDown={handleKeyDown}
-      className={`relative select-none rounded-lg border-2 md:border-3 border-black p-3 md:p-4 transition-all duration-150 min-h-[9vh] flex flex-col justify-between ${
+      className={`relative select-none rounded border-2 md:border-[3px] border-black p-3 md:p-3.5 transition-all duration-150 min-h-[9.5vh] flex flex-col justify-between ${
         styles.bg
       } ${
         isActive
-          ? 'shadow-brutal-press translate-x-1 translate-y-1 ring-2 ring-black'
-          : 'shadow-brutal hover:-translate-y-1 hover:shadow-brutal-lg active:translate-x-0.5 active:translate-y-0.5 active:shadow-brutal-sm'
+          ? 'translate-x-1 translate-y-1 shadow-[1px_1px_0px_#000] ring-4 ring-black'
+          : 'shadow-[4px_4px_0px_#000] hover:-translate-y-1 hover:shadow-[6px_6px_0px_#000] active:translate-x-1 active:translate-y-1 active:shadow-[1px_1px_0px_#000]'
       } ${onClick ? 'cursor-pointer' : ''}`}
     >
+      {/* Barra superior con identificador técnico y icono */}
       <div className="flex items-center justify-between">
-        <span className="text-xs font-black uppercase tracking-wider text-black">
-          {title}
-        </span>
-        <div className="flex h-7 w-7 items-center justify-center rounded border border-black bg-white shadow-[1px_1px_0px_#000]">
-          <IonIcon icon={icon} className={`text-base font-bold ${styles.iconColor}`} />
+        <div className="flex items-center gap-1.5">
+          <span className="border border-black bg-black px-1 py-0.2 font-mono text-[10px] font-black text-[#FFE600]">
+            [{styles.code}]
+          </span>
+          <span className={`text-[11px] font-black uppercase tracking-wider ${styles.text}`}>
+            {title}
+          </span>
+        </div>
+        <div className="flex h-6 w-6 items-center justify-center rounded-none border border-black bg-black/20">
+          <IonIcon icon={icon} className={`text-base font-black ${styles.iconColor}`} />
         </div>
       </div>
 
+      {/* Número de conteo y badge de filtro activo */}
       <div className="mt-2 flex items-baseline justify-between">
-        <p className="text-3xl font-black tracking-tight text-black">{count}</p>
+        <p className={`text-3xl font-black tracking-tighter ${styles.text}`}>
+          {count}
+        </p>
         {isActive && (
-          <span className="rounded border border-black bg-black px-1.5 py-0.5 text-[10px] font-black uppercase tracking-wider text-yellow-300">
-            Filtro activo
+          <span className="border border-black bg-black px-1.5 py-0.5 text-[9px] font-black uppercase tracking-widest text-[#FFE600] animate-pulse">
+            FILTRO
           </span>
         )}
       </div>

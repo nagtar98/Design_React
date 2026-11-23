@@ -28,14 +28,14 @@ import { useIncidentsStorage } from '../hooks/useIncidentsStorage';
 import { IncidentPriority } from '../types/incident';
 
 const PRIORITY_BADGE_CLASSES: Record<IncidentPriority, string> = {
-  alta: 'bg-rose-300 text-black border-2 border-black',
-  media: 'bg-amber-300 text-black border-2 border-black',
-  baja: 'bg-emerald-300 text-black border-2 border-black',
+  alta: 'bg-[#FF2A2A] text-white border-2 border-black',
+  media: 'bg-[#FF7A00] text-black border-2 border-black',
+  baja: 'bg-[#00D26A] text-black border-2 border-black',
 };
 
 /**
- * Vista de Detalle y Ficha Técnica de Incidencia (RA 2 / CE 2.b, RA 3 / CE 3.e).
- * Aplica diseño Neo-Brutalista, interacciones táctiles y layout proporcional con vh.
+ * Vista de Detalle y Ficha Técnica con estética Industrial Brutalista (sin colores pastel).
+ * Cumple con RA 2 / CE 2.b, RA 3 / CE 3.e y distribución vh responsiva.
  */
 export const IncidentDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -49,7 +49,6 @@ export const IncidentDetail: React.FC = () => {
 
   const incident = getIncidentById(id);
 
-  // Estado para la edición en vivo de la descripción
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [editedDescription, setEditedDescription] = useState<string>('');
   const [toastMessage, setToastMessage] = useState<string | null>(null);
@@ -68,26 +67,24 @@ export const IncidentDetail: React.FC = () => {
             <IonButtons slot="start">
               <IonBackButton defaultHref="/home" text="Volver" />
             </IonButtons>
-            <IonTitle className="font-black">Incidencia No Encontrada</IonTitle>
+            <IonTitle className="font-black">REGISTRO NO ENCONTRADO</IonTitle>
           </IonToolbar>
         </IonHeader>
-        <IonContent className="ion-padding">
+        <IonContent className="ion-padding bg-[#f4f4f0]">
           <div className="mx-auto flex min-h-[70vh] max-w-lg flex-col items-center justify-center text-center">
-            <div className="rounded-xl border-3 border-black bg-rose-200 p-8 shadow-brutal">
-              <IonIcon icon={alertCircleOutline} className="text-6xl text-black" />
-              <h2 className="mt-4 text-2xl font-black text-black">
-                Incidencia no localizada
-              </h2>
-              <p className="mt-2 text-sm font-bold text-black">
-                El identificador <span className="font-mono bg-black text-yellow-300 px-1">{id}</span> no existe o fue eliminado.
+            <div className="rounded border-[3px] border-black bg-[#FF2A2A] p-8 text-white shadow-[6px_6px_0px_#000]">
+              <IonIcon icon={alertCircleOutline} className="text-6xl text-white" />
+              <h2 className="mt-4 text-2xl font-black">REGISTRO INEXISTENTE</h2>
+              <p className="mt-2 text-sm font-bold">
+                El código <span className="border border-white bg-black px-1 font-mono text-[#FFE600]">{id}</span> no existe en la memoria local.
               </p>
               <button
                 type="button"
                 onClick={() => history.replace('/home')}
-                className="mt-6 inline-flex items-center gap-2 rounded-lg border-2 border-black bg-yellow-300 px-4 py-2 font-black text-black shadow-brutal transition-all hover:shadow-brutal-lg active:translate-x-0.5 active:translate-y-0.5"
+                className="mt-6 inline-flex items-center gap-2 rounded-none border-2 border-black bg-[#FFE600] px-4 py-2 font-black text-black shadow-[3px_3px_0px_#000] transition-all hover:shadow-[5px_5px_0px_#000] active:translate-x-0.5 active:translate-y-0.5"
               >
                 <IonIcon icon={arrowBackOutline} />
-                Regresar al Panel Principal
+                Regresar al Monitor
               </button>
             </div>
           </div>
@@ -105,15 +102,15 @@ export const IncidentDetail: React.FC = () => {
     }
     updateIncident(incident.id, { description: editedDescription.trim() });
     setIsEditing(false);
-    setToastMessage('Descripción actualizada con éxito.');
+    setToastMessage('Descripción técnica actualizada con éxito.');
   };
 
   const handleStatusToggle = () => {
     toggleIncidentStatus(incident.id);
     setToastMessage(
       isResolved
-        ? `Incidencia ${incident.id} reabierta como Pendiente.`
-        : `Incidencia ${incident.id} marcada como Resuelta.`
+        ? `Incidencia ${incident.id} reabierta en cola de trabajo.`
+        : `Incidencia ${incident.id} marcada como verificada/resuelta.`
     );
   };
 
@@ -136,79 +133,78 @@ export const IncidentDetail: React.FC = () => {
             />
           </IonButtons>
           <IonTitle className="font-black tracking-tight text-black">
-            Ficha Técnica · {incident.id}
+            EXPEDIENTE TÉCNICO // {incident.id}
           </IonTitle>
         </IonToolbar>
       </IonHeader>
 
-      <IonContent fullscreen className="bg-[#faf8f5]">
-        {/* Contenedor responsivo utilizando layout proporcional en vh */}
+      <IonContent fullscreen className="bg-[#f4f4f0]">
         <div className="mx-auto flex min-h-[90vh] max-w-3xl flex-col justify-between px-4 py-5 sm:px-6">
-          {/* Tarjeta Principal de Ficha Técnica */}
-          <div className="rounded-xl border-2 md:border-3 border-black bg-white p-5 md:p-7 shadow-brutal">
-            {/* Header de la ficha */}
-            <div className="flex flex-wrap items-center justify-between gap-3 border-b-2 md:border-b-3 border-black pb-4">
+          {/* Ficha técnica principal */}
+          <div className="rounded border-2 md:border-[3px] border-black bg-white p-5 md:p-7 shadow-[6px_6px_0px_#000]">
+            {/* Cabecera de la ficha */}
+            <div className="flex flex-wrap items-center justify-between gap-3 border-b-2 border-black pb-4">
               <div className="flex items-center gap-2">
-                <span className="rounded border-2 border-black bg-black px-3 py-1 font-mono text-sm font-black text-yellow-300 shadow-[2px_2px_0px_#000]">
+                <span className="border-2 border-black bg-black px-3 py-1 font-mono text-sm font-black text-[#FFE600] shadow-[2px_2px_0px_#000]">
                   {incident.id}
                 </span>
                 <span
-                  className={`rounded border-2 px-3 py-1 text-xs font-black uppercase tracking-wider shadow-[2px_2px_0px_#000] ${
+                  className={`border-2 px-3 py-1 text-xs font-black uppercase tracking-wider shadow-[2px_2px_0px_#000] ${
                     PRIORITY_BADGE_CLASSES[incident.priority]
                   }`}
                 >
-                  Prioridad {incident.priority}
+                  PRIORIDAD: {incident.priority}
                 </span>
               </div>
 
-              {/* Sello de estado */}
+              {/* Sello de estado saturado */}
               <div
-                className={`flex items-center gap-1.5 rounded-lg border-2 border-black px-3 py-1.5 font-black uppercase tracking-wider text-xs shadow-[2px_2px_0px_#000] ${
-                  isResolved ? 'bg-emerald-300 text-black' : 'bg-amber-300 text-black'
+                className={`flex items-center gap-1.5 border-2 border-black px-3 py-1 font-black uppercase tracking-wider text-xs shadow-[2px_2px_0px_#000] ${
+                  isResolved ? 'bg-[#00D26A] text-black' : 'bg-[#FF7A00] text-black'
                 }`}
               >
                 <IonIcon
                   icon={isResolved ? checkmarkCircleOutline : timeOutline}
                   className="text-base font-black"
                 />
-                <span>{isResolved ? 'Estado: Resuelta' : 'Estado: Pendiente'}</span>
+                <span>{isResolved ? 'ESTADO: RESUELTA' : 'ESTADO: PENDIENTE'}</span>
               </div>
             </div>
 
             {/* Título de la incidencia */}
             <div className="mt-5">
-              <span className="text-[11px] font-black uppercase tracking-widest text-slate-500">
-                Título del Registro
-              </span>
-              <h1 className="mt-1 text-xl md:text-2xl font-black text-black">
+              <div className="inline-block border border-black bg-black px-1.5 py-0.5 font-mono text-[10px] font-black uppercase tracking-widest text-[#FFE600]">
+                DETALLE DE ANOMALÍA
+              </div>
+              <h1 className="mt-1.5 text-xl md:text-2xl font-black text-black tracking-tight">
                 {incident.title}
               </h1>
             </div>
 
-            {/* Datos Técnicos en Rejilla Responsiva */}
+            {/* Datos Técnicos en Rejilla Industrial */}
             <div className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2">
-              <div className="rounded-lg border-2 border-black bg-sky-100 p-3 shadow-[2px_2px_0px_#000]">
-                <div className="flex items-center gap-1.5 text-xs font-black uppercase text-black">
-                  <IonIcon icon={locationOutline} className="text-base" />
-                  <span>Ubicación Asignada</span>
+              <div className="rounded border-2 border-black bg-white p-3.5 shadow-[3px_3px_0px_#000]">
+                <div className="flex items-center gap-1.5 font-mono text-xs font-black uppercase text-black">
+                  <IonIcon icon={locationOutline} className="text-base text-black" />
+                  <span>UBICACIÓN ASIGNADA</span>
                 </div>
-                <p className="mt-1 font-bold text-black">{incident.location}</p>
+                <p className="mt-1.5 text-sm font-black text-black">{incident.location}</p>
               </div>
 
-              <div className="rounded-lg border-2 border-black bg-purple-100 p-3 shadow-[2px_2px_0px_#000]">
-                <div className="flex items-center gap-1.5 text-xs font-black uppercase text-black">
-                  <IonIcon icon={timeOutline} className="text-base" />
-                  <span>Hora de Notificación</span>
+              <div className="rounded border-2 border-black bg-white p-3.5 shadow-[3px_3px_0px_#000]">
+                <div className="flex items-center gap-1.5 font-mono text-xs font-black uppercase text-black">
+                  <IonIcon icon={timeOutline} className="text-base text-black" />
+                  <span>REGISTRO DE TIMESTAMP</span>
                 </div>
-                <p className="mt-1 font-bold text-black">{incident.createdAt}</p>
+                <p className="mt-1.5 text-sm font-black text-black">{incident.createdAt}</p>
               </div>
             </div>
 
             {/* Sección de Descripción Técnica Editable */}
-            <div className="mt-6 rounded-lg border-2 border-black bg-amber-50 p-4 shadow-[3px_3px_0px_#000]">
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-black uppercase tracking-wider text-black">
-                  Descripción Técnica de la Incidencia
+            <div className="mt-6 border-2 border-black bg-[#EEEEEE] p-4 shadow-[4px_4px_0px_#000]">
+              <div className="flex items-center justify-between border-b-2 border-black/20 pb-2">
+                <span className="font-mono text-xs font-black uppercase tracking-wider text-black">
+                  /// REPORTE TÉCNICO OBSERVADO ///
                 </span>
                 {!isEditing && (
                   <button
@@ -217,7 +213,7 @@ export const IncidentDetail: React.FC = () => {
                       setEditedDescription(incident.description);
                       setIsEditing(true);
                     }}
-                    className="inline-flex items-center gap-1.5 rounded border-2 border-black bg-yellow-300 px-2.5 py-1 text-xs font-black uppercase transition-all shadow-[2px_2px_0px_#000] hover:shadow-[3px_3px_0px_#000] active:translate-x-0.5 active:translate-y-0.5"
+                    className="inline-flex items-center gap-1.5 rounded-none border-2 border-black bg-[#FFE600] px-3 py-1 text-xs font-black uppercase transition-all shadow-[2px_2px_0px_#000] hover:bg-black hover:text-[#FFE600] active:translate-x-0.5 active:translate-y-0.5"
                   >
                     <IonIcon icon={createOutline} />
                     Editar
@@ -231,14 +227,14 @@ export const IncidentDetail: React.FC = () => {
                     value={editedDescription}
                     onIonInput={(e) => setEditedDescription(e.detail.value ?? '')}
                     rows={4}
-                    className="w-full rounded border-2 border-black bg-white p-2.5 font-mono text-sm font-semibold shadow-[2px_2px_0px_#000]"
-                    placeholder="Describe detalladamente los síntomas y pasos técnicos..."
+                    className="w-full border-2 border-black bg-white p-3 font-mono text-sm font-bold shadow-[2px_2px_0px_#000]"
+                    placeholder="Detalla observaciones técnicas, pasos ejecutados..."
                   />
                   <div className="flex flex-wrap items-center justify-end gap-2">
                     <button
                       type="button"
                       onClick={() => setIsEditing(false)}
-                      className="inline-flex items-center gap-1 rounded border-2 border-black bg-slate-200 px-3 py-1.5 text-xs font-black uppercase transition-all shadow-[2px_2px_0px_#000] active:translate-x-0.5 active:translate-y-0.5"
+                      className="inline-flex items-center gap-1 border-2 border-black bg-white px-3 py-1.5 text-xs font-black uppercase shadow-[2px_2px_0px_#000] active:translate-x-0.5 active:translate-y-0.5"
                     >
                       <IonIcon icon={closeOutline} />
                       Cancelar
@@ -246,7 +242,7 @@ export const IncidentDetail: React.FC = () => {
                     <button
                       type="button"
                       onClick={handleSaveDescription}
-                      className="inline-flex items-center gap-1 rounded border-2 border-black bg-emerald-400 px-4 py-1.5 text-xs font-black uppercase transition-all shadow-[2px_2px_0px_#000] hover:bg-emerald-500 active:translate-x-0.5 active:translate-y-0.5"
+                      className="inline-flex items-center gap-1 border-2 border-black bg-[#00D26A] px-4 py-1.5 text-xs font-black uppercase shadow-[2px_2px_0px_#000] hover:bg-[#00B85C] active:translate-x-0.5 active:translate-y-0.5"
                     >
                       <IonIcon icon={saveOutline} />
                       Guardar Cambios
@@ -254,48 +250,48 @@ export const IncidentDetail: React.FC = () => {
                   </div>
                 </div>
               ) : (
-                <p className="mt-3 whitespace-pre-wrap font-mono text-sm font-medium leading-relaxed text-black">
+                <p className="mt-3 whitespace-pre-wrap font-mono text-sm font-bold leading-relaxed text-black">
                   {incident.description}
                 </p>
               )}
             </div>
 
-            {/* Protocolo de Diagnóstico */}
-            <div className="mt-6 flex items-center gap-2 rounded border border-black/30 bg-slate-100 p-2.5 text-xs font-bold text-slate-700">
-              <IonIcon icon={shieldCheckmarkOutline} className="text-base text-black" />
-              <span>
-                Registro auditado conforme a los estándares de laboratorio DAM (Código 0488).
+            {/* Pie de auditoría */}
+            <div className="mt-6 flex items-center gap-2 border-2 border-black bg-black p-2.5 text-xs font-black text-[#FFE600]">
+              <IonIcon icon={shieldCheckmarkOutline} className="text-lg text-[#FFE600]" />
+              <span className="font-mono text-[11px]">
+                PROTOCOLO DAM-0488 · SISTEMA DE GESTIÓN OPERATIVA SMARTLAB
               </span>
             </div>
           </div>
 
-          {/* Barra de Acciones Operativas (Tactile Brutalist Buttons) */}
+          {/* Barra de Acciones Operativas con Botones de Alto Impacto */}
           <div className="my-5 flex flex-wrap items-center justify-between gap-3">
             <button
               type="button"
               onClick={handleStatusToggle}
-              className={`inline-flex min-h-[44px] items-center gap-2 rounded-lg border-2 md:border-3 border-black px-4 py-2.5 font-black uppercase tracking-wider text-xs md:text-sm shadow-brutal transition-all hover:shadow-brutal-lg active:translate-x-1 active:translate-y-1 active:shadow-none ${
+              className={`inline-flex min-h-[46px] items-center gap-2 rounded border-2 md:border-[3px] border-black px-5 py-2.5 font-black uppercase tracking-wider text-xs md:text-sm shadow-[4px_4px_0px_#000] transition-all hover:shadow-[6px_6px_0px_#000] active:translate-x-1 active:translate-y-1 active:shadow-none ${
                 isResolved
-                  ? 'bg-amber-300 text-black hover:bg-amber-400'
-                  : 'bg-emerald-300 text-black hover:bg-emerald-400'
+                  ? 'bg-[#FF7A00] text-black hover:bg-[#E66E00]'
+                  : 'bg-[#00D26A] text-black hover:bg-[#00B85C]'
               }`}
             >
               <IonIcon
                 icon={isResolved ? timeOutline : checkmarkCircleOutline}
-                className="text-lg"
+                className="text-lg font-black"
               />
               <span>
-                {isResolved ? 'Reabrir Incidencia (Pendiente)' : 'Marcar como Resuelta'}
+                {isResolved ? 'Reabrir Registro (Pendiente)' : 'Validar y Marcar Resuelta'}
               </span>
             </button>
 
             <button
               type="button"
               onClick={handleDelete}
-              className="inline-flex min-h-[44px] items-center gap-2 rounded-lg border-2 md:border-3 border-black bg-rose-400 px-4 py-2.5 font-black uppercase tracking-wider text-xs md:text-sm text-black shadow-brutal transition-all hover:bg-rose-500 hover:shadow-brutal-lg active:translate-x-1 active:translate-y-1 active:shadow-none"
+              className="inline-flex min-h-[46px] items-center gap-2 rounded border-2 md:border-[3px] border-black bg-[#FF2A2A] px-5 py-2.5 font-black uppercase tracking-wider text-xs md:text-sm text-white shadow-[4px_4px_0px_#000] transition-all hover:bg-black hover:text-[#FF2A2A] hover:shadow-[6px_6px_0px_#000] active:translate-x-1 active:translate-y-1 active:shadow-none"
             >
               <IonIcon icon={trashOutline} className="text-lg" />
-              <span>Eliminar Ficha</span>
+              <span>Eliminar Registro</span>
             </button>
           </div>
         </div>
@@ -304,7 +300,7 @@ export const IncidentDetail: React.FC = () => {
         <IonToast
           isOpen={toastMessage !== null}
           message={toastMessage ?? ''}
-          duration={2000}
+          duration={2200}
           position="bottom"
           onDidDismiss={() => setToastMessage(null)}
         />

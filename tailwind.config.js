@@ -21,18 +21,16 @@ export default {
         mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'monospace'],
       },
       colors: {
-        brutal: {
-          bg: '#fbf9f4',
-          yellow: '#fde047',
-          amber: '#fbbf24',
-          blue: '#93c5fd',
-          sky: '#38bdf8',
-          green: '#86efac',
-          emerald: '#34d399',
-          red: '#fca5a5',
-          rose: '#fb7185',
-          purple: '#d8b4fe',
-          dark: '#121212',
+        raw: {
+          yellow: '#FFE600',   // Cyber / Hazard Yellow
+          orange: '#FF7A00',   // Safety Orange
+          red: '#FF2A2A',      // Vivid Crimson
+          blue: '#0052FF',     // Electric Cobalt Blue
+          cyan: '#00D2FF',     // Electric Cyan
+          green: '#00D26A',    // Electric Signal Green
+          canvas: '#F4F4F0',   // Industrial Paper Canvas
+          surface: '#FFFFFF',  // Pure Stark White
+          dark: '#111111',     // Pitch Black
         },
       },
     },
